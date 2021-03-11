@@ -21,9 +21,9 @@ app.post("/users", async (req, res) => {
 
   try {
     const user = new User({
-      firstName: req.firstName,
-      email: req.email,
-      password: req.password,
+      firstName: req.body.firstName,
+      email: req.body.email,
+      password: req.body.password,
     });
 
     await user.save();
