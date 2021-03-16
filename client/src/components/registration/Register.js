@@ -14,7 +14,6 @@ function Register() {
 	const onsubmit = (e) => {
 		e.preventDefault();
 		dispatch(registerUser(formData));
-		console.log(formData);
 	};
 
 	return (
