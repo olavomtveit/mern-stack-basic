@@ -18,4 +18,19 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
+/*
+ * @route  GET api/users/:id
+ * @desc   Get one user by ID
+ * @access Private
+ */
+router.get("/:id", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    res.json({ message: `Here is your user ${user}` });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: "user not found" });
+  }
+});
+
 module.exports = router;

@@ -9,23 +9,35 @@ const Product = require("../../models/Product");
  * @desc   Add a product
  * @access Private
  */
-router.post("/", async (req, res) => {
-  console.log(">>>", req.body);
+router.post(
+  "/",
+  auth,
+  body("title").notEmpty().isLength({ min: 3 }),
+  body("description").notEmpty().isLength({ min: 3 }),
+  body("price").isNumeric(),
+  body("imageUrl").notEmpty(),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-  const { title, description, price, imageUrl } = req.body;
+    const { title, description, price, imageUrl } = req.body;
 
-  try {
-    product = new Product({
-      title: title,
-      description: description,
-      price: price,
-      imageUrl: imageUrl,
-    });
+    try {
+      product = new Product({
+        title: title,
+        description: description,
+        price: price,
+        imageUrl: imageUrl,
+      });
 
-    await product.save();
-  } catch (error) {
-    res.status(500).send(error);
+      await product.save();
+      res.json({ message: "Product added successfully." });
+    } catch (error) {
+      res.status(500).send(error);
+    }
   }
-});
+);
 
 module.exports = router;
