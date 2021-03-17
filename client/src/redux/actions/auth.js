@@ -17,6 +17,7 @@ export const registerUser = ({ firstName, email, password }) => async (
 	try {
 		console.log(body);
 		const res = await axios.post('/api/auth', body, config);
+		localStorage.setItem('token', res.data.token);
 		dispatch({
 			type: REGISTER_SUCCESS,
 			payload: {
@@ -24,6 +25,8 @@ export const registerUser = ({ firstName, email, password }) => async (
 			},
 		});
 	} catch (error) {
+		//TODO: ADD TEST TO SEE IF KEY EXISTS
+		localStorage.removeItem('token');
 		dispatch({
 			type: REGISTER_FAIL,
 		});
