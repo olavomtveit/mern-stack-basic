@@ -1,13 +1,25 @@
-/* import axios from "axios";
+import axios from "axios";
 import { REGISTER_SUCCESS, REGISTER_FAIL } from "../actions/actionTypes";
-// we do the api call, triggered by the login form
 
-export function someFunction() {
-  return function anotherFunction() {};
-}
+export const registerUser = ({ firstName, email, password }) => async (
+  dispatch
+) => {
+  const userData = JSON.stringify({
+    firstName: firstName,
+    email: email,
+    password: password,
+  });
 
-export const registerUser = ({ dataFromForm }) => async (dispatchAnAction) => {
-  // we do an api call
-  // if successfull, dispatch the action
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  try {
+    const res = await axios.post("/api/auth", userData, config);
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  }
 };
- */
